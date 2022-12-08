@@ -21,10 +21,8 @@ find_package(sensor_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(cv_bridge REQUIRED)
 
-#find_package(SuiteParse REQUIRED)
 find_package(Eigen3 REQUIRED)
-#find_package(Boost REQUIRED COMPONENTS system thread)
-include(cmake/ConfigExtras.cmake) # See https://gist.github.com/tylerjw/ce3bcb94b3df7996e450dec18ee54cde
+find_package(Boost REQUIRED COMPONENTS system thread)
 find_package(Pangolin REQUIRED)
 message("-- FOUND Pangolin version ${Pangolin_VERSION}")
 find_library(DSSO_LIBRARY dsso ${DSSO_PATH}/build/Debug/lib)
@@ -39,7 +37,7 @@ set(CMAKE_CXX_FLAGS
 
 
 add_executable(dsso_ros src/dsso_ros.cpp)
-target_link_libraries(dsso_ros ${Boost_LIBRARIES} ${Pangolin_LIBRARIES} ${OpenCV_LIBS} ${DSSO_LIBRARY})
+target_link_libraries(dsso_ros ${DSSO_LIBRARY} ${Boost_LIBRARIES} ${Pangolin_LIBRARIES} ${OpenCV_LIBS})
 ament_target_dependencies(dsso_ros rclcpp sensor_msgs geometry_msgs cv_bridge)
 
 include_directories(
@@ -67,4 +65,4 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-ament_package(CONFIG_EXTRAS cmake/ConfigExtras.cmake)
+ament_package()
