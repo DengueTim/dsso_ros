@@ -36,7 +36,7 @@ set(CMAKE_CXX_FLAGS
 )
 
 
-add_executable(dsso_ros src/dsso_ros.cpp)
+add_executable(dsso_ros src/dsso_ros.cpp src/Ros2Output3DWrapper.cpp)
 target_link_libraries(dsso_ros ${DSSO_LIBRARY} ${Boost_LIBRARIES} ${Pangolin_LIBRARIES} ${OpenCV_LIBS})
 ament_target_dependencies(dsso_ros rclcpp sensor_msgs geometry_msgs cv_bridge)
 

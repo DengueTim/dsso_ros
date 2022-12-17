@@ -1,0 +1,6 @@
+dsso_ros:
+  ros__parameters:
+    gammaFile: "/home/tp/src/dsso/EuRoC_MAV/pcalib.txt"
+    vignetteFile: "/home/tp/src/dsso/EuRoC_MAV/vignette.png"
+    calibFileL: "/home/tp/src/dsso/EuRoC_MAV/cameraLeft.txt"
+    calibFileR: "/home/tp/src/dsso/EuRoC_MAV/cameraRight.txt"
