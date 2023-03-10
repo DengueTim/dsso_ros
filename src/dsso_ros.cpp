@@ -5,7 +5,6 @@
 
 #include "rclcpp/rclcpp.hpp"
 #include "sensor_msgs/msg/image.hpp"
-#include "geometry_msgs/msg/transform.hpp"
 
 #include "util/NumType.h"
 #include "util/settings.h"
@@ -67,7 +66,7 @@ public:
                 new dso::FullSystem(undistorterL->getK(), undistorterR->getK(), leftToRight));
         fullSystem->linearizeOperation = false;
 
-        outputWrapper = std::unique_ptr<dso::IOWrap::Output3DWrapper>(new dso::IOWrap::Ros2Output3DWrapper(width, height));
+        outputWrapper = std::unique_ptr<dso::IOWrap::Output3DWrapper>(new dso::IOWrap::Ros2Output3DWrapper(*this, width, height));
         fullSystem->outputWrapper.push_back(outputWrapper.get());
 
         std::function<void(std::shared_ptr<sensor_msgs::msg::Image>)> fnc;
@@ -75,8 +74,6 @@ public:
         subscriptionCamLeft = this->create_subscription<sensor_msgs::msg::Image>("/cam0/image_raw", 10, fnc);
         fnc = std::bind(&DssoRos::camImageCallback, this, std::placeholders::_1, true);
         subscriptionCamRight = this->create_subscription<sensor_msgs::msg::Image>("/cam1/image_raw", 10, fnc);
-
-        publisherCamTransforms = this->create_publisher<geometry_msgs::msg::Transform>("dsso/cam_transforms", 10);
     }
 
 private:
@@ -129,8 +126,6 @@ private:
 
     rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr subscriptionCamLeft;
     rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr subscriptionCamRight;
-
-    rclcpp::Publisher<geometry_msgs::msg::Transform>::SharedPtr publisherCamTransforms;
 };
 
 int main(int argc, char *argv[]) {

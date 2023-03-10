@@ -1,0 +1,142 @@
+<?xml version="1.0"?>
+<robot name="EurocMavFirefly">
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <sphere radius="0.005"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <link name="imu">
+    <visual>
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name="base_to_imu" type="fixed">
+    <parent link="base_link"/>
+    <child link="marker"/>
+    <origin xyz="0.0 0.0 0.2"/>
+  </joint>
+
+  <link name="marker">
+    <visual>
+      <geometry>
+        <box size="0.01 0.005 0.005"/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name="imu_to_marker" type="fixed">
+    <parent link="marker"/>
+    <child link="imu"/>
+    <origin xyz="0.074890  -0.018477  -0.120209"  rpy="3.14159 -1.57079 0.0"/>
+  </joint>
+
+  <link name="cam0">
+    <visual>
+      <geometry>
+        <cylinder length="0.01" radius="0.01"/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name="imu_to_cam0" type="fixed">
+    <parent link="imu"/>
+    <child link="cam0"/>
+    <origin xyz="-2.1640e-02  -6.4677e-02   9.8107e-03" rpy="-2.5719e-02   4.1403e-03   1.5559e+00"/>
+<!--    <origin xyz="0.0652 -0.0207 -0.0081" rpy="-3.7574e-03  -2.5777e-02  -1.5559e+00"/>-->
+  </joint>
+
+  <link name="cam1">
+    <visual>
+      <geometry>
+        <cylinder length="0.01" radius="0.01"/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name="imu_to_cam1" type="fixed">
+    <parent link="imu"/>
+    <child link="cam1"/>
+    <origin xyz="-1.9844e-02   4.5369e-02   7.8621e-03" rpy="-0.025166   0.018225   1.558239"/>
+<!--    <origin xyz="-0.0449 -0.0206 -0.0086" rpy="-0.017907  -0.025393  -1.558237"/>-->
+  </joint>
+
+<!--  <link name="rotor_fl">-->
+<!--    <visual>-->
+<!--      <geometry>-->
+<!--        <cylinder length="0.01" radius="0.1"/>-->
+<!--      </geometry>-->
+<!--    </visual>-->
+<!--  </link>-->
+<!--  <joint name="base_to_fl" type="fixed">-->
+<!--    <parent link="base_link"/>-->
+<!--    <child link="rotor_fl"/>-->
+<!--    <origin rpy="0 0 0" xyz="0.1861 0.107 0.037"/>-->
+<!--  </joint>-->
+
+<!--  <link name="rotor_fr">-->
+<!--    <visual>-->
+<!--      <geometry>-->
+<!--        <cylinder length="0.01" radius="0.1"/>-->
+<!--      </geometry>-->
+<!--    </visual>-->
+<!--  </link>-->
+<!--  <joint name="base_to_fr" type="fixed">-->
+<!--    <parent link="base_link"/>-->
+<!--    <child link="rotor_fr"/>-->
+<!--    <origin rpy="0 0 0" xyz="0 0 0.037"/>-->
+<!--  </joint>-->
+
+<!--  <link name="rotor_l">-->
+<!--    <visual>-->
+<!--      <geometry>-->
+<!--        <cylinder length="0.01" radius="0.1"/>-->
+<!--      </geometry>-->
+<!--    </visual>-->
+<!--  </link>-->
+<!--  <joint name="base_to_l" type="fixed">-->
+<!--    <parent link="base_link"/>-->
+<!--    <child link="rotor_l"/>-->
+<!--    <origin rpy="0 0 0" xyz="0 0.215 0.037"/>-->
+<!--  </joint>-->
+
+<!--  <link name="rotor_r">-->
+<!--    <visual>-->
+<!--      <geometry>-->
+<!--        <cylinder length="0.01" radius="0.1"/>-->
+<!--      </geometry>-->
+<!--    </visual>-->
+<!--  </link>-->
+<!--  <joint name="base_to_r" type="fixed">-->
+<!--    <parent link="base_link"/>-->
+<!--    <child link="rotor_r"/>-->
+<!--    <origin rpy="0 0 0" xyz="0 -0.215 0.037"/>-->
+<!--  </joint>-->
+
+<!--  <link name="rotor_rl">-->
+<!--    <visual>-->
+<!--      <geometry>-->
+<!--        <cylinder length="0.01" radius="0.1"/>-->
+<!--      </geometry>-->
+<!--    </visual>-->
+<!--  </link>-->
+<!--  <joint name="base_to_rl" type="fixed">-->
+<!--    <parent link="base_link"/>-->
+<!--    <child link="rotor_rl"/>-->
+<!--    <origin rpy="0 0 0" xyz="0 0 0.037"/>-->
+<!--  </joint>-->
+
+<!--  <link name="rotor_rr">-->
+<!--    <visual>-->
+<!--      <geometry>-->
+<!--        <cylinder length="0.01" radius="0.1"/>-->
+<!--      </geometry>-->
+<!--    </visual>-->
+<!--  </link>-->
+<!--  <joint name="base_to_rr" type="fixed">-->
+<!--    <parent link="base_link"/>-->
+<!--    <child link="rotor_rr"/>-->
+<!--    <origin rpy="0 0 0" xyz="0 0 0.037"/>-->
+<!--  </joint>-->
+</robot>
