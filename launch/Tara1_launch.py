@@ -35,7 +35,7 @@ def generate_launch_description():
         Node(
             package='dsso_ros',
             executable='dsso_ros',
-            parameters=['/home/tp/ros2_ws/src/dsso_ros/config/params.yaml'],
+            parameters=['/home/tp/ros2_ws/src/dsso_ros/config/Tara1_params.yaml']
             # prefix=['xterm -e gdb -ex run --args'],
             # output='screen'
         )

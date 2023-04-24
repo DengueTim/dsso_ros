@@ -13,6 +13,7 @@
 #include "Ros2Output3DWrapper.h"
 
 #include "cv_bridge/cv_bridge.h"
+#include "IOWrapper/Pangolin/PangolinDSOViewer.h"
 
 class DssoRos : public rclcpp::Node {
 public:
@@ -31,7 +32,7 @@ public:
         std::string calibFileR =
                 this->get_parameter("calibFileR").get_parameter_value().get<std::string>();
 
-        dso::disableAllDisplay = true;
+        dso::disableAllDisplay = false;
 
         dso::setting_desiredImmatureDensity = 1000;
         dso::setting_desiredPointDensity = 1200;
@@ -51,9 +52,15 @@ public:
         if (!undistorterR) abort();
 
         Eigen::Matrix<double, 4, 4> leftExtrinsics;
-        leftExtrinsics << 0.0148655429818, -0.999880929698, 0.00414029679422, -0.0216401454975, 0.999557249008, 0.0149672133247, 0.025715529948, -0.064676986768, -0.0257744366974, 0.00375618835797, 0.999660727178, 0.00981073058949, 0.0, 0.0, 0.0, 1.0;
+        //leftExtrinsics << 0.0148655429818, -0.999880929698, 0.00414029679422, -0.0216401454975, 0.999557249008, 0.0149672133247, 0.025715529948, -0.064676986768, -0.0257744366974, 0.00375618835797, 0.999660727178, 0.00981073058949, 0.0, 0.0, 0.0, 1.0;
+        leftExtrinsics.setIdentity();
+        //leftExtrinsics << 0.9989, 0.0107, -0.0464, 0, -0.0108, 0.9999, -0.0009, 0, 0.0464, 0.0014, 0.9989, 0, 0, 0, 0, 1.0000;
         Eigen::Matrix<double, 4, 4> rightExtrinsics;
-        rightExtrinsics << 0.0125552670891, -0.999755099723, 0.0182237714554, -0.0198435579556, 0.999598781151, 0.0130119051815, 0.0251588363115, 0.0453689425024, -0.0253898008918, 0.0179005838253, 0.999517347078, 0.00786212447038, 0.0, 0.0, 0.0, 1.0;
+        //rightExtrinsics << 0.0125552670891, -0.999755099723, 0.0182237714554, -0.0198435579556, 0.999598781151, 0.0130119051815, 0.0251588363115, 0.0453689425024, -0.0253898008918, 0.0179005838253, 0.999517347078, 0.00786212447038, 0.0, 0.0, 0.0, 1.0;
+        rightExtrinsics.setIdentity();
+        rightExtrinsics(0,3) = 0.06; // 60mm baseline;
+        //rightExtrinsics << 0.9992, 0.0116, -0.0374, 0.0605, -0.0116, 0.9999, 0.0013, 0.0007, 0.0374, -0.0009, 0.9993, -0.0023, 0, 0, 0, 1.0000;
+
         // leftToRight is the transform for a point between the cameras, not the camera transform..  inv(inv(leftExtrinsics) * rightExtrinsics))
         leftToRight = dso::SE3(rightExtrinsics).inverse() * dso::SE3(leftExtrinsics);
 
@@ -66,8 +73,13 @@ public:
                 new dso::FullSystem(undistorterL->getK(), undistorterR->getK(), leftToRight));
         fullSystem->linearizeOperation = false;
 
-        outputWrapper = std::unique_ptr<dso::IOWrap::Output3DWrapper>(new dso::IOWrap::Ros2Output3DWrapper(*this, width, height));
+        //outputWrapper = std::unique_ptr<dso::IOWrap::Output3DWrapper>(new dso::IOWrap::Ros2Output3DWrapper(*this, width, height));
+        outputWrapper = std::unique_ptr<dso::IOWrap::Output3DWrapper>(new dso::IOWrap::PangolinDSOViewer(width, height, true));
         fullSystem->outputWrapper.push_back(outputWrapper.get());
+
+//        dso::IOWrap::PangolinDSOViewer *viewer = 0;
+//        viewer = new dso::IOWrap::PangolinDSOViewer(width, height, true);
+//        fullSystem->outputWrapper.push_back(viewer);
 
         std::function<void(std::shared_ptr<sensor_msgs::msg::Image>)> fnc;
         fnc = std::bind(&DssoRos::camImageCallback, this, std::placeholders::_1, false);

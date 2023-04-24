@@ -1,0 +1,6 @@
+dsso_ros:
+  ros__parameters:
+    gammaFile: "/home/tp/src/dsso_ros/config/pcalib.txt"
+    vignetteFile: "/home/tp/src/dsso_ros/config/vignette.png"
+    calibFileL: "/home/tp/src/dsso_ros/config/Tara1Identity.txt"
+    calibFileR: "/home/tp/src/dsso_ros/config/Tara1Identity.txt"
